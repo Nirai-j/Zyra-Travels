@@ -1,0 +1,581 @@
+# Travel Agency Application - Initial Project Setup with VSCode
+
+## Project Structure
+```
+travel-agency/
+├── .vscode/                        # VSCode configuration
+│   ├── launch.json                 # Debug configuration
+│   ├── settings.json               # Editor settings
+│   └── extensions.json             # Recommended extensions
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── yourcompany/
+│   │   │           └── travelagency/
+│   │   │               ├── config/          # Configuration classes
+│   │   │               ├── controller/      # REST controllers
+│   │   │               ├── exception/       # Exception handlers
+│   │   │               ├── model/           # Domain models
+│   │   │               │   ├── entity/      # JPA entities
+│   │   │               │   ├── dto/         # Data transfer objects
+│   │   │               │   └── mapper/      # DTO-Entity mappers
+│   │   │               ├── repository/      # Data repositories
+│   │   │               ├── service/         # Business logic
+│   │   │               └── TravelAgencyApplication.java  # Main class
+│   │   └── resources/
+│   │       ├── db/
+│   │       │   └── migration/      # Flyway migration scripts
+│   │       ├── static/             # Static resources
+│   │       ├── templates/          # Template files (if needed)
+│   │       ├── application.yml     # Application properties
+│   │       ├── application-dev.yml # Development properties
+│   │       └── logback-spring.xml  # Logging configuration
+│   └── test/
+│       ├── java/                   # Test classes
+│       └── resources/              # Test resources
+├── .gitignore                      # Git ignore file
+├── mvnw                            # Maven wrapper script
+├── mvnw.cmd                        # Maven wrapper script for Windows
+├── pom.xml                         # Maven configuration
+└── README.md                       # Project documentation
+```
+
+## Day 1: Setup Steps with VSCode
+
+### 1. Install Required VSCode Extensions
+```json
+// .vscode/extensions.json
+{
+  "recommendations": [
+    "vscjava.vscode-java-pack",
+    "vmware.vscode-spring-boot",
+    "pivotal.vscode-spring-boot",
+    "redhat.java",
+    "vscjava.vscode-java-debug",
+    "vscjava.vscode-java-test",
+    "vscjava.vscode-maven",
+    "sonarsource.sonarlint",
+    "esbenp.prettier-vscode",
+    "ms-azuretools.vscode-docker",
+    "eamodio.gitlens"
+  ]
+}
+```
+
+### 2. Set Up VSCode Workspace Settings
+```json
+// .vscode/settings.json
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.format.enabled": true,
+  "java.format.settings.url": ".vscode/java-formatter.xml",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.completion.importOrder": [
+    "java",
+    "javax",
+    "org",
+    "com",
+    ""
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/target": false
+  },
+  "java.test.config": {
+    "vmArgs": ["-Dspring.profiles.active=test"]
+  }
+}
+```
+
+### 3. Launch Configuration for Debugging
+```json
+// .vscode/launch.json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot App",
+      "request": "launch",
+      "mainClass": "com.yourcompany.travelagency.TravelAgencyApplication",
+      "env": {
+        "SPRING_PROFILES_ACTIVE": "dev"
+      }
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot Test",
+      "request": "launch",
+      "mainClass": "com.yourcompany.travelagency.TravelAgencyApplication",
+      "args": "--spring.profiles.active=test"
+    }
+  ]
+}
+```
+
+### 4. Create pom.xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.yourcompany</groupId>
+    <artifactId>travel-agency</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Travel Agency Application</name>
+    <description>Scalable Travel Agency Application</description>
+    
+    <properties>
+        <java.version>17</java.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <org.projectlombok.version>1.18.30</org.projectlombok.version>
+    </properties>
+    
+    <dependencies>
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        
+        <!-- Database -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        
+        <!-- JWT Support -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Utils -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+        
+        <!-- Development Tools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${org.projectlombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+### 5. Create Main Application Class
+```java
+// src/main/java/com/yourcompany/travelagency/TravelAgencyApplication.java
+package com.yourcompany.travelagency;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class TravelAgencyApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(TravelAgencyApplication.class, args);
+    }
+}
+```
+
+### 6. Configure Application Properties
+```yaml
+# src/main/resources/application.yml
+spring:
+  application:
+    name: travel-agency
+  datasource:
+    url: jdbc:postgresql://localhost:5432/travel_agency
+    username: postgres
+    password: yourpassword
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+  output:
+    ansi:
+      enabled: always
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    com.yourcompany.travelagency: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+```
+
+```yaml
+# src/main/resources/application-dev.yml
+spring:
+  jpa:
+    show-sql: true
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+logging:
+  level:
+    com.yourcompany.travelagency: DEBUG
+    org.springframework.web: DEBUG
+```
+
+## Day 2: Documentation and Standards Setup
+
+### 1. Create README.md
+```markdown
+# Travel Agency Application
+
+## Overview
+A scalable travel agency application built with Spring Boot, providing features for package management, booking, user management, and more.
+
+## Technology Stack
+- Java 17
+- Spring Boot 3.1.x
+- PostgreSQL
+- Flyway for DB migrations
+- JWT for authentication
+- Maven
+- React/Next.js (Frontend - to be implemented)
+
+## Prerequisites
+- JDK 17+
+- Maven 3.8+
+- PostgreSQL 14+
+- VSCode with recommended extensions
+
+## Getting Started
+
+### Database Setup
+```bash
+# Create PostgreSQL database
+createdb travel_agency
+```
+
+### Running the Application
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/travel-agency.git
+cd travel-agency
+
+# Build the project
+./mvnw clean install
+
+# Run the application
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+### Testing
+```bash
+# Run tests
+./mvnw test
+```
+
+## API Documentation
+API documentation will be available at http://localhost:8080/api/swagger-ui.html once the application is running.
+
+## Development Guidelines
+- Follow standard Java naming conventions
+- Use meaningful variable and method names
+- Document all public APIs
+- Write unit tests for all services
+- Follow the Git workflow described in CONTRIBUTING.md
+
+## Project Roadmap
+See [ROADMAP.md](./ROADMAP.md) for detailed implementation plan.
+```
+
+### 2. Create .gitignore
+```
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+### Project specific ###
+logs/
+.env
+.DS_Store
+application-local.yml
+```
+
+### 3. Create CONTRIBUTING.md
+```markdown
+# Contributing Guidelines
+
+## Code Style
+- Use the Google Java Style Guide
+- Keep methods short and focused
+- Document public APIs with Javadoc
+- Use meaningful variable names
+- Write unit tests for new code
+
+## Git Workflow
+1. Create a feature branch from `develop`
+   ```
+   git checkout -b feature/your-feature-name
+   ```
+2. Make your changes and commit using conventional commit messages:
+   ```
+   feat: add new feature
+   fix: fix bug in X
+   docs: update documentation
+   test: add tests for feature Y
+   refactor: refactor component Z
+   ```
+3. Push your branch and create a Pull Request
+4. After review, merge to `develop`
+
+## Pull Request Process
+1. Ensure code passes all tests
+2. Update documentation if needed
+3. Add appropriate tests for your changes
+4. Request review from at least one team member
+5. Address all review comments
+
+## Development Environment
+- Use the recommended VSCode extensions
+- Configure your IDE to use the project's code style
+- Run tests locally before pushing
+
+## Code Review Guidelines
+- Be respectful and constructive
+- Focus on the code, not the author
+- Explain your reasoning
+- Suggest alternatives when pointing out issues
+```
+
+### 4. Create Initial Flyway Migration
+```sql
+-- src/main/resources/db/migration/V1__Initial_Schema.sql
+CREATE TABLE users (
+    id UUID PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE roles (
+    id UUID PRIMARY KEY,
+    name VARCHAR(20) NOT NULL UNIQUE,
+    description VARCHAR(100)
+);
+
+CREATE TABLE user_roles (
+    user_id UUID NOT NULL REFERENCES users(id),
+    role_id UUID NOT NULL REFERENCES roles(id),
+    PRIMARY KEY (user_id, role_id)
+);
+
+-- Insert default roles
+INSERT INTO roles (id, name, description) VALUES 
+    (gen_random_uuid(), 'ROLE_USER', 'Standard user role'),
+    (gen_random_uuid(), 'ROLE_ADMIN', 'Administrator role');
+```
+
+### 5. Initialize Git Repository
+```bash
+# Initialize a new git repository
+git init
+
+# Add all files to staging
+git add .
+
+# Make the initial commit
+git commit -m "feat: initial project setup"
+
+# Add the remote repository
+git remote add origin https://github.com/yourusername/travel-agency.git
+
+# Push to the remote repository
+git push -u origin main
+```
+
+### 6. Create Basic Docker Compose for Development
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: travel_agency
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```

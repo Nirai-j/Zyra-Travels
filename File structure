@@ -1,0 +1,396 @@
+Here's the full file structure for your Zyra Travel application:
+Entity Models
+
+src/main/java/com/zyra/model/User.java
+src/main/java/com/zyra/model/Role.java
+src/main/java/com/zyra/model/TravelPackage.java
+src/main/java/com/zyra/model/Destination.java
+src/main/java/com/zyra/model/ItineraryDay.java
+src/main/java/com/zyra/model/PackageAmenity.java
+src/main/java/com/zyra/model/Booking.java
+src/main/java/com/zyra/model/PackageAvailability.java (implied from DTOs)
+
+Repository Interfaces
+
+src/main/java/com/zyra/repository/UserRepository.java
+src/main/java/com/zyra/repository/RoleRepository.java
+src/main/java/com/zyra/repository/TravelPackageRepository.java
+src/main/java/com/zyra/repository/DestinationRepository.java
+src/main/java/com/zyra/repository/BookingRepository.java
+src/main/java/com/zyra/repository/PackageAvailabilityRepository.java (implied)
+src/main/java/com/zyra/repository/ItineraryDayRepository.java (implied)
+src/main/java/com/zyra/repository/PackageAmenityRepository.java (implied)
+
+DTOs (Data Transfer Objects)
+
+src/main/java/com/zyra/dto/UserDto.java (or UserDTO.java - standardize naming)
+src/main/java/com/zyra/dto/TravelPackageDto.java
+src/main/java/com/zyra/dto/BookingDto.java
+src/main/java/com/zyra/dto/RegisterDTO.java (newly added)
+src/main/java/com/zyra/dto/ItineraryDayDto.java (newly added)
+src/main/java/com/zyra/dto/PackageAmenityDto.java (newly added)
+src/main/java/com/zyra/dto/PackageAvailabilityDto.java (newly added)
+src/main/java/com/zyra/dto/DestinationDto.java (implied)
+src/main/java/com/zyra/dto/LoginDto.java (implied for authentication)
+
+Services
+
+src/main/java/com/zyra/service/UserService.java
+src/main/java/com/zyra/service/TravelPackageService.java
+src/main/java/com/zyra/service/BookingService.java
+src/main/java/com/zyra/service/AuthService.java
+src/main/java/com/zyra/service/DestinationService.java (implied)
+
+Service Implementations
+
+src/main/java/com/zyra/service/impl/UserServiceImpl.java
+src/main/java/com/zyra/service/impl/TravelPackageServiceImpl.java
+src/main/java/com/zyra/service/impl/BookingServiceImpl.java
+src/main/java/com/zyra/service/impl/AuthServiceImpl.java
+src/main/java/com/zyra/service/impl/DestinationServiceImpl.java (implied)
+
+Controllers
+
+src/main/java/com/zyra/controller/AuthController.java
+src/main/java/com/zyra/controller/UserController.java
+src/main/java/com/zyra/controller/TravelPackageController.java
+src/main/java/com/zyra/controller/BookingController.java
+src/main/java/com/zyra/controller/AdminController.java
+src/main/java/com/zyra/controller/DestinationController.java (implied)
+
+Security
+
+src/main/java/com/zyra/security/JwtTokenProvider.java
+src/main/java/com/zyra/security/JwtAuthenticationFilter.java
+src/main/java/com/zyra/security/SecurityConfig.java
+src/main/java/com/zyra/security/CustomUserDetailsService.java
+
+Exception Handling
+
+src/main/java/com/zyra/exception/ResourceNotFoundException.java
+src/main/java/com/zyra/exception/BadRequestException.java
+src/main/java/com/zyra/exception/GlobalExceptionHandler.java
+
+Configuration
+
+src/main/java/com/zyra/config/WebConfig.java
+src/main/java/com/zyra/config/AuditConfig.java
+
+Main Application
+
+src/main/java/com/zyra/ZyraTravelApplication.java
+
+Resources
+
+src/main/resources/application.properties (or application.yml)
+src/main/resources/data.sql (optional, for initial data)
+
+Additional Utility Classes (as needed)
+
+src/main/java/com/zyra/utils/AppConstants.java
+src/main/java/com/zyra/utils/AppUtils.java
+
+Database Migration (optional)
+
+src/main/resources/db/migration/... (if using Flyway or Liquibase)
+
+
+-----------------------------------------------------------------------------
+
+
+FRONT END
+
+zyra-travel-frontend/
+├── public/
+│   ├── index.html
+│   └── favicon.ico
+│
+├── src/
+│   ├── assets/
+│   │   └── images/
+│   │   └── icons/
+│
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   ├── Footer.jsx
+│   │   ├── TravelPackageCard.jsx
+│   │   ├── FilterSidebar.jsx
+│   │   ├── BookingForm.jsx
+│   │   ├── ReviewForm.jsx
+│   │   ├── PaymentForm.jsx
+│
+│   ├── pages/
+│   │   ├── HomePage.jsx
+│   │   ├── PackageDetailsPage.jsx
+│   │   ├── BookingPage.jsx
+│   │   ├── PaymentPage.jsx
+│   │   ├── LoginPage.jsx
+│   │   ├── RegisterPage.jsx
+│   │   ├── MyBookingsPage.jsx
+│
+│   ├── services/
+│   │   ├── api.js
+│   │   ├── authService.js
+│   │   ├── bookingService.js
+│   │   ├── paymentService.js
+│
+│   ├── context/
+│   │   ├── AuthContext.jsx
+│   │   ├── BookingContext.jsx
+│
+│   ├── hooks/
+│   │   ├── useAuth.js
+│   │   ├── useBooking.js
+│
+│   ├── utils/
+│   │   ├── constants.js
+│   │   ├── helpers.js
+│
+│   ├── App.jsx
+│   ├── main.jsx
+│   ├── routes.jsx
+│
+├── tailwind.config.js
+├── package.json
+└── README.md
+
+-------------------------------------------------------------------------
+
+Backend
+
+zyra-travel-backend/
+├── src/main/java/com/zyra
+│   ├── ZyraTravelApplication.java
+│
+│   ├── config/
+│   │   ├── WebConfig.java
+│   │   ├── SecurityConfig.java
+│   │   ├── JwtTokenProvider.java
+│   │   ├── JwtAuthenticationFilter.java
+│   │   ├── PaymentGatewayConfig.java
+│   │   ├── CloudSqlConfig.java
+│
+│   ├── model/
+│   │   ├── User.java
+│   │   ├── Role.java
+│   │   ├── TravelPackage.java
+│   │   ├── Destination.java
+│   │   ├── ItineraryDay.java
+│   │   ├── PackageAmenity.java
+│   │   ├── PackageAvailability.java
+│   │   ├── Booking.java
+│   │   ├── Payment.java
+│   │   ├── PaymentMethod.java
+│   │   ├── Review.java
+│
+│   ├── dto/
+│   │   ├── UserDto.java
+│   │   ├── TravelPackageDto.java
+│   │   ├── BookingDto.java
+│   │   ├── RegisterDto.java
+│   │   ├── LoginDto.java
+│   │   ├── ItineraryDayDto.java
+│   │   ├── PackageAmenityDto.java
+│   │   ├── PackageAvailabilityDto.java
+│   │   ├── DestinationDto.java
+│   │   ├── PaymentDto.java
+│   │   ├── PaymentMethodDto.java
+│   │   ├── ReviewDto.java
+│
+│   ├── repository/
+│   │   ├── UserRepository.java
+│   │   ├── RoleRepository.java
+│   │   ├── TravelPackageRepository.java
+│   │   ├── DestinationRepository.java
+│   │   ├── ItineraryDayRepository.java
+│   │   ├── PackageAmenityRepository.java
+│   │   ├── PackageAvailabilityRepository.java
+│   │   ├── BookingRepository.java
+│   │   ├── PaymentRepository.java
+│   │   ├── PaymentMethodRepository.java
+│   │   ├── ReviewRepository.java
+│
+│   ├── service/
+│   │   ├── AuthService.java
+│   │   ├── UserService.java
+│   │   ├── TravelPackageService.java
+│   │   ├── BookingService.java
+│   │   ├── PaymentService.java
+│   │   ├── ReviewService.java
+│
+│   ├── service/impl/
+│   │   ├── AuthServiceImpl.java
+│   │   ├── UserServiceImpl.java
+│   │   ├── TravelPackageServiceImpl.java
+│   │   ├── BookingServiceImpl.java
+│   │   ├── PaymentServiceImpl.java
+│   │   ├── ReviewServiceImpl.java
+│
+│   ├── controller/
+│   │   ├── AuthController.java
+│   │   ├── UserController.java
+│   │   ├── TravelPackageController.java
+│   │   ├── BookingController.java
+│   │   ├── PaymentController.java
+│   │   ├── ReviewController.java
+│
+│   ├── payment/
+│   │   ├── PaymentGatewayService.java
+│   │   ├── StripeIntegration.java
+│   │   ├── PaypalIntegration.java
+│
+│   ├── exception/
+│   │   ├── GlobalExceptionHandler.java
+│   │   ├── ResourceNotFoundException.java
+│   │   ├── BadRequestException.java
+│   │   ├── PaymentProcessingException.java
+│
+│   ├── utils/
+│   │   ├── AppConstants.java
+│   │   ├── AppUtils.java
+│   │   ├── BookingNumberGenerator.java
+│
+│   ├── cloud/
+│   │   ├── CloudStorageService.java
+│   │   ├── CloudSqlConnectionManager.java
+│
+├── src/main/resources/
+│   ├── application.properties
+│   ├── application-dev.properties
+│   ├── application-prod.properties
+│   ├── data.sql
+│
+├── pom.xml
+└── README.md
+├── docker/
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   ├── nginx.conf (if needed for reverse proxy)
+
+--Database
+-- Create Database
+CREATE DATABASE zyra_travel;
+USE zyra_travel;
+
+-- Users Table
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    role VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Destinations Table
+CREATE TABLE destinations (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    description TEXT,
+    image_url VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Travel Packages Table
+CREATE TABLE travel_packages (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    destination_id BIGINT,
+    duration_days INT NOT NULL,
+    base_price DECIMAL(10,2) NOT NULL,
+    average_rating DECIMAL(3,2),
+    review_count INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (destination_id) REFERENCES destinations(id)
+);
+
+-- Itinerary Days Table
+CREATE TABLE itinerary_days (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    travel_package_id BIGINT,
+    day_number INT NOT NULL,
+    title VARCHAR(255),
+    description TEXT,
+    FOREIGN KEY (travel_package_id) REFERENCES travel_packages(id)
+);
+
+-- Package Amenities Table
+CREATE TABLE package_amenities (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    travel_package_id BIGINT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    icon_name VARCHAR(50),
+    included BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (travel_package_id) REFERENCES travel_packages(id)
+);
+
+-- Package Availabilities Table
+CREATE TABLE package_availabilities (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    travel_package_id BIGINT,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    capacity INT NOT NULL,
+    booked_count INT DEFAULT 0,
+    price DECIMAL(10,2),
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (travel_package_id) REFERENCES travel_packages(id)
+);
+
+-- Payment Methods Table
+CREATE TABLE payment_methods (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(255),
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+-- Bookings Table
+CREATE TABLE bookings (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT,
+    package_availability_id BIGINT,
+    booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    number_of_travelers INT NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (package_availability_id) REFERENCES package_availabilities(id)
+);
+
+-- Payments Table
+CREATE TABLE payments (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    booking_id BIGINT NOT NULL,
+    payment_method_id BIGINT,
+    transaction_id VARCHAR(100),
+    amount DECIMAL(10,2) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    currency VARCHAR(3) DEFAULT 'INR',
+    payment_gateway VARCHAR(50), 
+    error_message TEXT,
+    receipt_url VARCHAR(255),
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (booking_id) REFERENCES bookings(id),
+    FOREIGN KEY (payment_method_id) REFERENCES payment_methods(id)
+);
+
+-- Add indexes for better query performance
+CREATE INDEX idx_package_availability_dates ON package_availabilities(start_date, end_date);
+CREATE INDEX idx_booking_status ON bookings(status);
+CREATE INDEX idx_payment_status ON payments(status);
+CREATE INDEX idx_user_email ON users(email);

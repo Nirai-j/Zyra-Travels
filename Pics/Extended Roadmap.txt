@@ -1,0 +1,396 @@
+# Travel Agency Application - Detailed Package Structure with Timeline
+
+## Core Package Organization (Day 1 - 4 hours)
+
+```
+com.yourcompany.travelagency/
+├── config/                   # Configuration classes
+│   ├── SecurityConfig.java         # Security configuration (Day 2 - 2 hours)
+│   ├── JwtConfig.java              # JWT configuration (Day 2 - 1 hour)
+│   ├── WebConfig.java              # Web MVC configuration (Day 1 - 1 hour)
+│   ├── AsyncConfig.java            # Async task configuration (Day 2 - 1 hour)
+│   └── SwaggerConfig.java          # API documentation config (Day 2 - 1 hour)
+│
+├── controller/               # REST controllers
+│   ├── AuthController.java         # Authentication endpoints (Day 3 - 2 hours)
+│   ├── UserController.java         # User management endpoints (Day 3 - 2 hours)
+│   ├── PackageController.java      # Travel package endpoints (Day 4 - 3 hours)
+│   ├── BookingController.java      # Booking management endpoints (Day 5 - 3 hours)
+│   ├── PaymentController.java      # Payment processing endpoints (Day 5 - 2 hours)
+│   └── SearchController.java       # Search related endpoints (Day 6 - 2 hours)
+│
+├── exception/                # Exception handling
+│   ├── GlobalExceptionHandler.java # Global exception handler (Day 1 - 1 hour)
+│   ├── ResourceNotFoundException.java # 404 exception (Day 1 - 30 min)
+│   ├── BadRequestException.java    # 400 exception (Day 1 - 30 min)
+│   ├── AuthenticationException.java # Auth exception (Day 2 - 30 min)
+│   └── BusinessException.java      # Business logic exceptions (Day 1 - 30 min)
+│
+├── model/                    # Domain models
+│   ├── entity/                     # JPA entities
+│   │   ├── User.java               # User entity (Day 1 - 1 hour)
+│   │   ├── Role.java               # Role entity (Day 1 - 30 min)
+│   │   ├── Package.java            # Travel package entity (Day 4 - 1 hour)
+│   │   ├── Itinerary.java          # Itinerary entity (Day 4 - 1 hour)
+│   │   ├── ItineraryDay.java       # Daily itinerary entity (Day 4 - 1 hour)
+│   │   ├── Destination.java        # Destination entity (Day 4 - 1 hour)
+│   │   ├── Accommodation.java      # Accommodation entity (Day 4 - 1 hour)
+│   │   ├── Transportation.java     # Transportation entity (Day 4 - 1 hour)
+│   │   ├── Activity.java           # Activity entity (Day 4 - 1 hour)
+│   │   ├── Booking.java            # Booking entity (Day 5 - 1 hour)
+│   │   ├── Payment.java            # Payment entity (Day 5 - 1 hour)
+│   │   ├── Review.java             # Review entity (Day 6 - 1 hour)
+│   │   └── Audit.java              # Base audit entity (Day 1 - 30 min)
+│   │
+│   ├── dto/                        # Data transfer objects
+│   │   ├── request/                # Request DTOs
+│   │   │   ├── LoginRequest.java         # Login request (Day 2 - 30 min)
+│   │   │   ├── RegisterRequest.java      # Registration request (Day 2 - 30 min)
+│   │   │   ├── PackageRequest.java       # Package creation request (Day 4 - 1 hour)
+│   │   │   ├── ItineraryRequest.java     # Itinerary creation request (Day 4 - 1 hour)
+│   │   │   ├── BookingRequest.java       # Booking creation request (Day 5 - 1 hour)
+│   │   │   └── SearchRequest.java        # Search request (Day 6 - 1 hour)
+│   │   │
+│   │   ├── response/               # Response DTOs
+│   │   │   ├── UserResponse.java         # User data response (Day 3 - 1 hour)
+│   │   │   ├── JwtResponse.java          # JWT auth response (Day 2 - 30 min)
+│   │   │   ├── PackageResponse.java      # Package data response (Day 4 - 1 hour)
+│   │   │   ├── ItineraryResponse.java    # Itinerary data response (Day 4 - 1 hour)
+│   │   │   ├── BookingResponse.java      # Booking data response (Day 5 - 1 hour)
+│   │   │   ├── PaymentResponse.java      # Payment data response (Day 5 - 1 hour)
+│   │   │   └── ErrorResponse.java        # Error response (Day 1 - 30 min)
+│   │   │
+│   │   └── mapper/                 # DTO-Entity mappers
+│   │       ├── UserMapper.java           # User mapper (Day 3 - 1 hour)
+│   │       ├── PackageMapper.java        # Package mapper (Day 4 - 1 hour)
+│   │       ├── ItineraryMapper.java      # Itinerary mapper (Day 4 - 1 hour)
+│   │       └── BookingMapper.java        # Booking mapper (Day 5 - 1 hour)
+│
+├── repository/               # Data repositories
+│   ├── UserRepository.java         # User data access (Day 3 - 1 hour)
+│   ├── RoleRepository.java         # Role data access (Day 2 - 30 min)
+│   ├── PackageRepository.java      # Package data access (Day 4 - 1 hour)
+│   ├── ItineraryRepository.java    # Itinerary data access (Day 4 - 1 hour)
+│   ├── BookingRepository.java      # Booking data access (Day 5 - 1 hour)
+│   └── custom/                     # Custom repository implementations
+│       └── PackageSearchRepository.java  # Advanced search (Day 6 - 2 hours)
+│
+├── service/                  # Business logic
+│   ├── AuthService.java            # Authentication service (Day 2 - 2 hours)
+│   ├── UserService.java            # User management service (Day 3 - 2 hours)
+│   ├── PackageService.java         # Package management service (Day 4 - 3 hours)
+│   ├── ItineraryService.java       # Itinerary management service (Day 4 - 2 hours)
+│   ├── BookingService.java         # Booking management service (Day 5 - 3 hours)
+│   ├── PaymentService.java         # Payment processing service (Day 5 - 2 hours)
+│   ├── SearchService.java          # Search service (Day 6 - 3 hours)
+│   ├── EmailService.java           # Email notification service (Day 3 - 2 hours)
+│   └── impl/                       # Service implementations
+│       ├── AuthServiceImpl.java          # Auth service impl (Day 2 - 3 hours)
+│       ├── UserServiceImpl.java          # User service impl (Day 3 - 3 hours)
+│       ├── PackageServiceImpl.java       # Package service impl (Day 4 - 4 hours)
+│       ├── ItineraryServiceImpl.java     # Itinerary service impl (Day 4 - 3 hours)
+│       ├── BookingServiceImpl.java       # Booking service impl (Day 5 - 4 hours)
+│       ├── PaymentServiceImpl.java       # Payment service impl (Day 5 - 3 hours)
+│       ├── SearchServiceImpl.java        # Search service impl (Day 6 - 4 hours)
+│       └── EmailServiceImpl.java         # Email service impl (Day 3 - 2 hours)
+│
+├── security/                 # Security components
+│   ├── JwtTokenProvider.java       # JWT generation/validation (Day 2 - 2 hours)
+│   ├── UserDetailsServiceImpl.java # Custom user details service (Day 2 - 1 hour)
+│   ├── JwtAuthenticationFilter.java # JWT filter (Day 2 - 2 hours)
+│   └── SecurityUtils.java          # Security utility methods (Day 2 - 1 hour)
+│
+└── util/                     # Utility classes
+    ├── DateUtils.java              # Date manipulation utilities (Day 1 - 1 hour)
+    ├── ValidationUtils.java        # Validation helpers (Day 1 - 1 hour)
+    ├── PriceCalculator.java        # Price calculation utilities (Day 4 - 2 hours)
+    └── StringUtils.java            # String manipulation utilities (Day 1 - 1 hour)
+```
+
+## Detailed Package Structure with Itinerary Components (Days 4-5)
+
+### Itinerary Package Structure
+```
+com.yourcompany.travelagency.model.entity/
+├── Itinerary.java                # Main itinerary entity (Day 4 - 1 hour)
+│   Fields:
+│   - id: UUID
+│   - package: Package            # Associated package
+│   - title: String               # Itinerary title
+│   - description: String         # Detailed description
+│   - duration: Integer           # Total duration in days
+│   - days: List<ItineraryDay>    # Daily breakdown
+│   - createdAt: LocalDateTime    # Creation timestamp
+│   - updatedAt: LocalDateTime    # Last update timestamp
+│
+├── ItineraryDay.java             # Daily itinerary breakdown (Day 4 - 1.5 hours)
+│   Fields:
+│   - id: UUID
+│   - itinerary: Itinerary        # Parent itinerary
+│   - dayNumber: Integer          # Day sequence number
+│   - title: String               # Day title (e.g., "Arrival Day")
+│   - description: String         # Day description
+│   - accommodation: Accommodation # Accommodation for this day
+│   - meals: Set<MealType>        # Included meals (breakfast, lunch, dinner)
+│   - activities: List<Activity>  # Activities for this day
+│   - transportations: List<Transportation> # Transportation for this day
+│   - startTime: LocalTime        # Day start time
+│   - endTime: LocalTime          # Day end time
+│
+├── Activity.java                 # Tour activities (Day 4 - 1 hour)
+│   Fields:
+│   - id: UUID
+│   - itineraryDay: ItineraryDay  # Associated day
+│   - title: String               # Activity title
+│   - description: String         # Detailed description
+│   - startTime: LocalTime        # Activity start time
+│   - endTime: LocalTime          # Activity end time
+│   - location: String            # Activity location
+│   - includedInPrice: Boolean    # If included in package price
+│   - pricePerPerson: BigDecimal  # Price if not included
+│   - maximumCapacity: Integer    # Maximum participants
+│   - activityType: ActivityType  # Type (SIGHTSEEING, ADVENTURE, etc)
+│   - requiredItems: String       # Items to bring
+│
+├── Accommodation.java            # Lodging details (Day 4 - 1 hour)
+│   Fields:
+│   - id: UUID
+│   - name: String                # Hotel/property name
+│   - address: String             # Complete address
+│   - description: String         # Property description
+│   - accommodationType: AccommodationType # Type (HOTEL, RESORT, etc)
+│   - starRating: Integer         # Star rating (1-5)
+│   - amenities: Set<String>      # Available amenities
+│   - checkInTime: LocalTime      # Standard check-in time
+│   - checkOutTime: LocalTime     # Standard check-out time
+│   - coordinates: Point          # Geo coordinates
+│   - contactInfo: String         # Contact information
+│   - images: List<String>        # Image URLs
+│
+├── Transportation.java           # Transportation details (Day 4 - 1 hour)
+│   Fields:
+│   - id: UUID
+│   - itineraryDay: ItineraryDay  # Associated day
+│   - type: TransportationType    # Type (FLIGHT, BUS, TRAIN, etc)
+│   - departureLocation: String   # Departure location
+│   - arrivalLocation: String     # Arrival location
+│   - departureTime: LocalDateTime # Departure time
+│   - arrivalTime: LocalDateTime  # Arrival time
+│   - transportationCompany: String # Company name
+│   - details: String             # Additional details
+│   - includedInPrice: Boolean    # If included in package price
+│   - pricePerPerson: BigDecimal  # Price if not included
+│
+└── Destination.java              # Destinations visited (Day 4 - 1 hour)
+    Fields:
+    - id: UUID
+    - name: String                # Destination name
+    - description: String         # Detailed description
+    - country: String             # Country
+    - city: String                # City
+    - coordinates: Point          # Geo coordinates
+    - images: List<String>        # Image URLs
+    - popularFor: Set<String>     # What it's known for
+    - weatherInfo: String         # Weather information
+    - timezone: String            # Timezone information
+    - travelTips: String          # Travel tips
+```
+
+## Search and Filtering Package Structure (Day 6)
+
+```
+com.yourcompany.travelagency.search/
+├── dto/
+│   ├── SearchCriteria.java       # Search criteria parameters (Day 6 - 1 hour)
+│   │   Fields:
+│   │   - destinations: List<String>    # Destination names
+│   │   - minDuration: Integer          # Minimum duration in days
+│   │   - maxDuration: Integer          # Maximum duration in days
+│   │   - minPrice: BigDecimal          # Minimum price
+│   │   - maxPrice: BigDecimal          # Maximum price
+│   │   - departureDate: LocalDate      # Departure date
+│   │   - returnDate: LocalDate         # Return date
+│   │   - accommodationTypes: List<AccommodationType> # Accommodation types
+│   │   - activityTypes: List<ActivityType> # Activity types
+│   │   - transportationTypes: List<TransportationType> # Transportation types
+│   │   - includesMeals: Boolean        # Packages including meals
+│   │   - sortBy: String                # Sort field
+│   │   - sortDirection: SortDirection  # Sort direction
+│   │   - page: Integer                 # Page number
+│   │   - size: Integer                 # Page size
+│   │
+│   └── SearchResult.java         # Search results wrapper (Day 6 - 1 hour)
+│       Fields:
+│       - packages: List<PackageResponse> # Found packages
+│       - totalItems: Long               # Total matching items
+│       - totalPages: Integer            # Total available pages
+│       - currentPage: Integer           # Current page number
+│
+├── repository/
+│   └── PackageSearchRepositoryImpl.java # Custom search implementation (Day 6 - 3 hours)
+│       Methods:
+│       - searchPackages(SearchCriteria): Page<Package>
+│       - findByDestination(String): List<Package>
+│       - findByPriceRange(BigDecimal, BigDecimal): List<Package>
+│       - findByDateRange(LocalDate, LocalDate): List<Package>
+│       - findByAccommodationType(AccommodationType): List<Package>
+│       - findByActivityType(ActivityType): List<Package>
+│
+└── service/
+    └── SearchServiceImpl.java    # Search service implementation (Day 6 - 3 hours)
+        Methods:
+        - search(SearchCriteria): SearchResult
+        - buildSearchSpecification(SearchCriteria): Specification<Package>
+        - getRecommendations(UUID userId): List<PackageResponse>
+        - getPopularPackages(): List<PackageResponse>
+        - getSimilarPackages(UUID packageId): List<PackageResponse>
+```
+
+## Booking System Package Structure (Day 5)
+
+```
+com.yourcompany.travelagency.booking/
+├── model/
+│   ├── entity/
+│   │   ├── Booking.java          # Booking entity (Day 5 - 1.5 hours)
+│   │   │   Fields:
+│   │   │   - id: UUID
+│   │   │   - bookingNumber: String        # Unique booking reference
+│   │   │   - user: User                   # User who made booking
+│   │   │   - travelPackage: Package       # Booked package
+│   │   │   - startDate: LocalDate         # Trip start date
+│   │   │   - endDate: LocalDate           # Trip end date
+│   │   │   - travelers: List<Traveler>    # Traveler information
+│   │   │   - status: BookingStatus        # Status (PENDING, CONFIRMED, etc)
+│   │   │   - totalPrice: BigDecimal       # Total booking price
+│   │   │   - specialRequests: String      # Special requests
+│   │   │   - payments: List<Payment>      # Associated payments
+│   │   │   - createdAt: LocalDateTime     # Creation timestamp
+│   │   │   - updatedAt: LocalDateTime     # Last update timestamp
+│   │   │   - cancelledAt: LocalDateTime   # Cancellation timestamp
+│   │   │   - cancellationReason: String   # Reason for cancellation
+│   │   │
+│   │   ├── Traveler.java         # Traveler information (Day 5 - 1 hour)
+│   │   │   Fields:
+│   │   │   - id: UUID
+│   │   │   - booking: Booking             # Associated booking
+│   │   │   - firstName: String            # First name
+│   │   │   - lastName: String             # Last name
+│   │   │   - dateOfBirth: LocalDate       # Date of birth
+│   │   │   - gender: Gender               # Gender
+│   │   │   - passportNumber: String       # Passport number
+│   │   │   - passportExpiryDate: LocalDate # Passport expiry date
+│   │   │   - nationality: String          # Nationality
+│   │   │   - phoneNumber: String          # Contact phone
+│   │   │   - email: String                # Contact email
+│   │   │   - specialRequirements: String  # Special requirements
+│   │   │
+│   │   └── Payment.java          # Payment entity (Day 5 - 1.5 hours)
+│   │       Fields:
+│   │       - id: UUID
+│   │       - booking: Booking             # Associated booking
+│   │       - amount: BigDecimal           # Payment amount
+│   │       - paymentDate: LocalDateTime   # Payment timestamp
+│   │       - paymentMethod: PaymentMethod # Method (CREDIT_CARD, BANK_TRANSFER)
+│   │       - transactionId: String        # Payment gateway transaction ID
+│   │       - status: PaymentStatus        # Status (PENDING, SUCCESS, FAILED)
+│   │       - gatewayResponse: String      # Response from payment gateway
+│   │       - failureReason: String        # Reason for failure if applicable
+│   │
+│   └── dto/
+│       ├── BookingRequest.java   # Booking creation DTO (Day 5 - 1 hour)
+│       ├── TravelerRequest.java  # Traveler information DTO (Day 5 - 30 min)
+│       ├── PaymentRequest.java   # Payment processing DTO (Day 5 - 1 hour)
+│       ├── BookingResponse.java  # Booking response DTO (Day 5 - 1 hour)
+│       └── BookingConfirmation.java # Booking confirmation DTO (Day 5 - 30 min)
+│
+├── repository/
+│   ├── BookingRepository.java    # Booking data access (Day 5 - 1 hour)
+│   ├── TravelerRepository.java   # Traveler data access (Day 5 - 30 min)
+│   └── PaymentRepository.java    # Payment data access (Day 5 - 30 min)
+│
+├── service/
+│   ├── BookingService.java       # Booking service interface (Day 5 - 1 hour)
+│   │   Methods:
+│   │   - createBooking(BookingRequest): BookingResponse
+│   │   - getBookingById(UUID): BookingResponse
+│   │   - getUserBookings(UUID): List<BookingResponse>
+│   │   - cancelBooking(UUID, String): BookingResponse
+│   │   - updateBookingStatus(UUID, BookingStatus): BookingResponse
+│   │   - checkAvailability(UUID, LocalDate, Integer): Boolean
+│   │   - calculateBookingPrice(UUID, LocalDate, Integer): PriceCalculation
+│   │
+│   ├── PaymentService.java       # Payment service interface (Day 5 - 1 hour)
+│   │   Methods:
+│   │   - processPayment(PaymentRequest): PaymentResponse
+│   │   - getPaymentById(UUID): PaymentResponse
+│   │   - getBookingPayments(UUID): List<PaymentResponse>
+│   │   - refundPayment(UUID): PaymentResponse
+│   │   - validatePayment(PaymentRequest): ValidationResult
+│   │
+│   └── impl/
+│       ├── BookingServiceImpl.java # Booking service implementation (Day 5 - 3 hours)
+│       └── PaymentServiceImpl.java # Payment service implementation (Day 5 - 3 hours)
+│
+└── controller/
+    ├── BookingController.java    # Booking endpoints (Day 5 - 2 hours)
+    │   Endpoints:
+    │   - POST /bookings - Create a new booking
+    │   - GET /bookings/{id} - Get booking details
+    │   - GET /bookings - Get current user's bookings
+    │   - PUT /bookings/{id}/cancel - Cancel a booking
+    │   - GET /bookings/{id}/invoice - Generate booking invoice
+    │   - POST /bookings/availability - Check availability
+    │   - POST /bookings/price - Calculate booking price
+    │
+    └── PaymentController.java    # Payment endpoints (Day 5 - 2 hours)
+        Endpoints:
+        - POST /payments - Process a new payment
+        - GET /payments/{id} - Get payment details
+        - GET /bookings/{id}/payments - Get booking payments
+        - POST /payments/{id}/refund - Process refund
+```
+
+## Database Migration Scripts (Day 1-2)
+
+```
+src/main/resources/db/migration/
+├── V1__Initial_Schema.sql       # Base tables - User, Role (Day 1 - 1 hour)
+├── V2__Security_Schema.sql      # Security related tables (Day 2 - 1 hour)
+├── V3__Package_Schema.sql       # Package related tables (Day 4 - 2 hours)
+├── V4__Itinerary_Schema.sql     # Itinerary related tables (Day 4 - 2 hours)
+└── V5__Booking_Schema.sql       # Booking related tables (Day 5 - 2 hours)
+```
+
+## Implementation Timeline Overview
+
+### Day 1: Core Setup (8 hours)
+- Project structure setup (2 hours)
+- Base configuration (2 hours)
+- Exception handling (2 hours)
+- Utility classes (2 hours)
+
+### Day 2: Security Framework (8 hours)
+- Security configuration (2 hours)
+- JWT implementation (3 hours)
+- User authentication framework (3 hours)
+
+### Day 3: User Management (8 hours)
+- User service implementation (3 hours)
+- User APIs (3 hours)
+- Email service setup (2 hours)
+
+### Day 4: Travel Package & Itinerary (8 hours)
+- Package entities and repositories (2 hours)
+- Itinerary detailed models (3 hours)
+- Package and itinerary services (3 hours)
+
+### Day 5: Booking System (8 hours)
+- Booking and payment entities (2 hours)
+- Booking service implementation (3 hours)
+- Payment processing (3 hours)
+
+### Day 6: Search and Filtering (8 hours)
+- Search criteria implementation (2 hours)
+- Custom search repository (3 hours)
+- Advanced filtering and sorting (3 hours)
