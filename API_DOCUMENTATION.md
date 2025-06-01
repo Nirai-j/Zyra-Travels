@@ -27,7 +27,7 @@ Most endpoints require authentication. Authentication is handled via JWT tokens.
   "username": "johndoe",
   "email": "john.doe@example.com",
   "password": "securepassword123",
-  "phoneNumber": "+1234567890"
+  "phoneNumber": "1234567890"
 }
 ```
 
@@ -102,7 +102,7 @@ Most endpoints require authentication. Authentication is handled via JWT tokens.
 **Endpoint:** `PUT /users/me`  
 **Authentication Required:** Yes (Bearer Token)
 
-**Sample Request:**
+**Sample Request:** 
 ```json
 {
   "firstName": "John",
@@ -111,7 +111,16 @@ Most endpoints require authentication. Authentication is handled via JWT tokens.
   "phoneNumber": "+1987654321"
 }
 ```
-
+//check
+{
+    "timestamp": "2025-06-01T22:35:42.1720175",
+    "message": "Validation Failed",
+    "path": "uri=/api/users/me",
+    "errorCode": "VALIDATION_FAILED",
+    "errors": {
+        "username": "Username should not be empty"
+    }
+}
 **Sample Response:**
 ```json
 {
@@ -157,12 +166,31 @@ Most endpoints require authentication. Authentication is handled via JWT tokens.
       "popularityScore": 92
     }
   ],
-  "totalPages": 5,
-  "totalElements": 50,
-  "currentPage": 0,
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
+    "sort": {
+      "empty": false,
+      "unsorted": false,
+      "sorted": true
+    },
+    "offset": 0,
+    "unpaged": false,
+    "paged": true
+  },
+  "last": true,
+  "totalElements": 2,
+  "totalPages": 1,
   "size": 10,
+  "number": 0,
   "first": true,
-  "last": false
+  "numberOfElements": 2,
+  "sort": {
+    "empty": false,
+    "unsorted": false,
+    "sorted": true
+  },
+  "empty": false
 }
 ```
 
@@ -206,6 +234,9 @@ Most endpoints require authentication. Authentication is handled via JWT tokens.
 **Sample Response:**
 ```json
 {
+  "totalItems": 3,
+  "totalPages": 1,
+  "currentPage": 0,
   "content": [
     {
       "id": 1,
@@ -237,13 +268,7 @@ Most endpoints require authentication. Authentication is handled via JWT tokens.
       "averageRating": 4.6,
       "reviewCount": 18
     }
-  ],
-  "totalPages": 3,
-  "totalElements": 25,
-  "currentPage": 0,
-  "size": 10,
-  "first": true,
-  "last": false
+  ]
 }
 ```
 

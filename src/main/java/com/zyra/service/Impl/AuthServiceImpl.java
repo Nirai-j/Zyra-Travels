@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,6 +32,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenProvider tokenProvider;
 
     @Override
+    @Transactional
     public AuthenticationResponse register(RegisterDTO registerRequest) {
         // Check if username exists
         if(userRepository.existsByUsername(registerRequest.getUsername())) {
@@ -52,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
             .phoneNumber(registerRequest.getPhoneNumber())
             .build();
 
-        // Add default role
+        // Add default role - Fix for detached entity error
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName("ROLE_USER")
             .orElseThrow(() -> new RuntimeException("Default role not found."));
@@ -62,16 +64,8 @@ public class AuthServiceImpl implements AuthService {
         // Save user
         user = userRepository.save(user);
 
-        // Authenticate user
-        Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                registerRequest.getUsername(),
-                registerRequest.getPassword()
-            )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = tokenProvider.generateToken(authentication);
+        // Generate token directly without re-authentication
+        String jwt = tokenProvider.generateTokenFromUsername(user.getUsername());
 
         return AuthenticationResponse.builder()
             .token(jwt)

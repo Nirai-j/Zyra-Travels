@@ -6,15 +6,19 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: validate  # Just validate the schema, don't create or update
+      ddl-auto: update  # Update existing schema, don't recreate
     show-sql: true
     properties:
       hibernate:
         format_sql: true
     open-in-view: false  # Disable OSIV pattern
+    defer-datasource-initialization: true  # This ensures Hibernate creates tables before data.sql runs
   sql:
     init:
-      mode: never  # Disable automatic schema initialization
+      mode: always  # Enable schema initialization
+      data-locations: classpath:data.sql
+      schema-locations: classpath:schema.sql
+      continue-on-error: true
   flyway:
     enabled: false  # Keep Flyway disabled since we're not using it
   main:
