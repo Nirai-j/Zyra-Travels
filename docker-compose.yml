@@ -9,20 +9,12 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/zyra_travel_dev
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/Zyra
       - SPRING_DATASOURCE_USERNAME=${DB_USER:-postgres}
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-postgres}
-      - SPRING_REDIS_HOST=redis
-      - SPRING_REDIS_PORT=6379
-      - JWT_SECRET=${JWT_SECRET:-default-dev-only-secret}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-Mininiru}
     depends_on:
       db:
         condition: service_healthy
-      redis:
-        condition: service_healthy
-      mailhog:
-        condition: service_started
     networks:
       - zyra-network
     deploy:
@@ -44,9 +36,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=zyra_travel_dev
+      - POSTGRES_DB=Zyra
       - POSTGRES_USER=${DB_USER:-postgres}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-Mininiru}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -62,46 +54,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # Redis Service
-  redis:
-    image: redis:7-alpine
-    container_name: zyra-travel-redis
-    restart: unless-stopped
-    command: redis-server --requirepass ${REDIS_PASSWORD:-redispass}
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - zyra-network
-    deploy:
-      resources:
-        limits:
-          cpus: '0.25'
-          memory: 256M
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # Mail Service (for development)
-  mailhog:
-    image: mailhog/mailhog
-    container_name: zyra-travel-mailhog
-    restart: unless-stopped
-    ports:
-      - "1025:1025" # SMTP port
-      - "8025:8025" # Web UI port
-    networks:
-      - zyra-network
-    deploy:
-      resources:
-        limits:
-          cpus: '0.2'
-          memory: 128M
-
-  # PgAdmin (for development)
+  # PgAdmin (optional - for database management)
   pgadmin:
     image: dpage/pgadmin4
     container_name: zyra-travel-pgadmin
@@ -124,8 +77,6 @@ services:
 
 volumes:
   postgres_data:
-    driver: local
-  redis_data:
     driver: local
 
 networks:

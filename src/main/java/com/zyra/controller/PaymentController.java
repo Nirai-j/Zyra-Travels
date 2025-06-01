@@ -15,9 +15,14 @@ import com.zyra.service.BookingService;
 import jakarta.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import static com.zyra.util.AppConstants.*;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/payments")
+@CrossOrigin(origins = "*")
 public class PaymentController {
 
     @Autowired
@@ -38,8 +43,17 @@ public class PaymentController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<PaymentDTO>> getAllPayments() {
-        return new ResponseEntity<>(paymentService.getAllPayments(), HttpStatus.OK);
+    public ResponseEntity<Page<PaymentDTO>> getAllPayments(
+            @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(defaultValue = DEFAULT_SORT_BY) String sortBy,
+            @RequestParam(defaultValue = DEFAULT_SORT_DIRECTION) String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? 
+                Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        return new ResponseEntity<>(
+            paymentService.getAllPayments(PageRequest.of(page, size, sort)), 
+            HttpStatus.OK
+        );
     }
 
     @GetMapping("/{id}")

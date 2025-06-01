@@ -8,11 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
@@ -24,7 +25,8 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDTO> getCurrentUser(Principal principal) {
-        return ResponseEntity.ok(userService.getUserByEmail(principal.getName()));
+        String usernameOrEmail = principal.getName();
+        return ResponseEntity.ok(userService.getUserByUsernameOrEmail(usernameOrEmail));
     }
 
     @PutMapping("/me")

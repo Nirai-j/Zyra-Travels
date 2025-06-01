@@ -1,9 +1,11 @@
 package com.zyra.service;
 
-import com.zyra.model.User;
+import com.zyra.dto.AuthenticationResponse;
+import com.zyra.dto.LoginDTO;
+import com.zyra.dto.RegisterDTO;
 
 public interface AuthService {
-    User register(User user);
-    User login(String usernameOrEmail, String password);
+    AuthenticationResponse register(RegisterDTO registerRequest);
+    AuthenticationResponse login(LoginDTO loginDTO);
     void logout();
 }

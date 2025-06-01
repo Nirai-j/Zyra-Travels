@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/packages")
+@RequestMapping("/packages")
+@CrossOrigin(origins = "*")
 public class TravelPackageController {
 
     private final TravelPackageService packageService;

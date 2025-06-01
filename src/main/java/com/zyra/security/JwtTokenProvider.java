@@ -1,46 +1,49 @@
 package com.zyra.security;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    @Value("${app.jwt-secret}")
+    @Value("${app.jwt.secret:your-default-secret-key-which-should-be-very-long}")
     private String jwtSecret;
 
-    @Value("${app.jwt-expiration-milliseconds}")
-    private long jwtExpirationInMs;
+    @Value("${app.jwt.expiration:86400000}")
+    private int jwtExpirationInMs;
+
+    private Key getSigningKey() {
+        byte[] keyBytes = jwtSecret.getBytes();
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 
     public String generateToken(Authentication authentication) {
-        String username = authentication.getName();
-        
-        // Include authorities in the token
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-        
+        UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(username)
-                .claim("roles", authorities)
+                .setSubject(userPrincipal.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(getSigningKey())
                 .compact();
     }
 
     public String getUsernameFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
 
@@ -49,18 +52,22 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(authToken);
             return true;
-        } catch (SignatureException ex) {
-            throw new JwtException("Invalid JWT signature");
+        } catch (SecurityException ex) {
+            logger.error("Invalid JWT signature");
         } catch (MalformedJwtException ex) {
-            throw new JwtException("Invalid JWT token");
+            logger.error("Invalid JWT token");
         } catch (ExpiredJwtException ex) {
-            throw new JwtException("Expired JWT token");
+            logger.error("Expired JWT token");
         } catch (UnsupportedJwtException ex) {
-            throw new JwtException("Unsupported JWT token");
+            logger.error("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {
-            throw new JwtException("JWT claims string is empty");
+            logger.error("JWT claims string is empty");
         }
+        return false;
     }
-}
+} 

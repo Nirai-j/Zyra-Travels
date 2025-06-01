@@ -81,10 +81,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDTO getBookingByReference(String reference) {
-        Booking booking = bookingRepository.findByBookingNumber(reference);
-        if (booking == null) {
-            throw new ResourceNotFoundException("Booking", "reference", reference);
-        }
+        Booking booking = bookingRepository.findByBookingNumber(reference)
+            .orElseThrow(() -> new ResourceNotFoundException("Booking", "reference", reference));
         return mapToDTO(booking);
     }
 

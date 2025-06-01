@@ -1,18 +1,13 @@
 package com.zyra.dto;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import jakarta.validation.constraints.NotEmpty;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class LoginDTO {
-    @NotEmpty(message = "Username or email should not be empty")
-    private String usernameOrEmail;
+    @NotBlank(message = "Username/email is required")
+    private String username;
     
-    @NotEmpty(message = "Password should not be empty")
+    @NotBlank(message = "Password is required")
     private String password;
 }
